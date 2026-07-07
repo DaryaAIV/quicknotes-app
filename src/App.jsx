@@ -8,6 +8,7 @@ function App() {
 
   function addNote(noteText) {
     const newNote = {
+      id: Date.now(),
       text: noteText,
       noteDate: new Date()
     };
@@ -15,15 +16,20 @@ function App() {
     setNotes([...notes, newNote]);
   }
 
+  function deleteNote(idToDel) {
+    const currNotes = notes.filter(note => note.id !== idToDel);
+    setNotes(currNotes);
+  }
+
   return (
     <>
       <div className='App'>
         <h1>QuickNotes</h1>
-        <NoteForm onAddNote={addNote}/>
+        <NoteForm onAddNote={addNote} />
         <div className="note-grid">
-            {notes.map((oneNote, index) => (
-              <NoteCard key={index} note={oneNote}/>
-            ))}
+          {notes.map((oneNote) => (
+            <NoteCard key={oneNote.id} note={oneNote} noteToDelete={deleteNote} />
+          ))}
         </div>
       </div>
     </>
