@@ -1,16 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import { useState } from 'react';
+import NoteForm from "./NoteForm";
+import NoteCard from "./NoteCard";
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [notes, setNotes] = useState([])
+
+  function addNote(noteText) {
+    const newNote = {
+      text: noteText,
+      noteDate: new Date()
+    };
+
+    setNotes([...notes, newNote]);
+  }
 
   return (
     <>
       <div className='App'>
         <h1>QuickNotes</h1>
+        <NoteForm onAddNote={addNote}/>
+        <div className="note-grid">
+            {notes.map((oneNote, index) => (
+              <NoteCard key={index} note={oneNote}/>
+            ))}
+        </div>
       </div>
     </>
   )
