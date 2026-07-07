@@ -6,9 +6,10 @@ import './App.css'
 function App() {
   const [notes, setNotes] = useState([])
 
-  function addNote(noteText) {
+  function addNote({title, noteText}) {
     const newNote = {
       id: Date.now(),
+      title: title,
       text: noteText,
       noteDate: new Date()
     };
@@ -36,4 +37,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

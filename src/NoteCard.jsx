@@ -1,9 +1,9 @@
 
-function NoteCard({note, noteToDelete}){
+function NoteCard({ note, noteToDelete }) {
 
-    function deleteClick(){
+    function deleteClick() {
         const isDelete = confirm("Are you sure you want to delete your note?")
-        if(isDelete){
+        if (isDelete) {
             noteToDelete(note.id);
         }
     }
@@ -15,11 +15,13 @@ function NoteCard({note, noteToDelete}){
         hour12: true
     });
 
-    return(
+    return (
         <div className="card">
+            <button className="delete-btn" onClick={deleteClick}>X</button>
+            {note.title ? <h2>{note.title}</h2> : null}
             <h3>{note.text}</h3>
             <p className="note-date">date: {formatDate}</p>
-            <button className="delete-btn" onClick={deleteClick}>X</button>
+
         </div>
     );
 }
