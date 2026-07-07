@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import NoteForm from "./NoteForm";
 import NoteCard from "./NoteCard";
 import './App.css'
 
 function App() {
-  const [notes, setNotes] = useState([])
+  const [notes, setNotes] = useState(() => {
+    const savedNotes = localStorage.getItem("myNotes");
+    return savedNotes ? JSON.parse(savedNotes) : [];
+  });
 
-  function addNote({title, noteText}) {
+  function addNote({ title, noteText }) {
     const newNote = {
       id: Date.now(),
       title: title,
@@ -22,10 +25,10 @@ function App() {
     setNotes(currNotes);
   }
 
-  function updateNote(noteId, {title, text}){
+  function updateNote(noteId, { title, text }) {
     const updateNotes = notes.map(note => {
-      if(note.id === noteId){
-        return{
+      if (note.id === noteId) {
+        return {
           ...note,
           title: title,
           text: text,
@@ -36,6 +39,10 @@ function App() {
     });
     setNotes(updateNotes);
   }
+
+  useEffect(() => {
+    localStorage.setItem("myNotes", JSON.stringify(notes));
+  }, [notes]);
 
   return (
     <>

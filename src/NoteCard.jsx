@@ -13,7 +13,7 @@ function NoteCard({ note, noteToDelete, noteToUpdate }) {
             noteToDelete(note.id);
         }
     }
-    const formatDate = note.noteDate.toLocaleString("en-US", {
+    const formatDate = new Date(note.noteDate).toLocaleString("en-US", {
         month: "short",
         day: "numeric",
         hour: "numeric",
@@ -21,7 +21,7 @@ function NoteCard({ note, noteToDelete, noteToUpdate }) {
         hour12: true
     });
 
-    const formatUpdateDate = note.updateDate ? note.updateDate.toLocaleString("en-US", {
+    const formatUpdateDate = note.updateDate ? new Date(note.updateDate).toLocaleString("en-US", {
         month: "short",
         day: "numeric",
         hour: "numeric",
