@@ -1,7 +1,11 @@
-
+import { useDisclosure } from '@mantine/hooks';
+import { Modal } from '@mantine/core';
 function NoteCard({ note, noteToDelete }) {
 
-    function deleteClick() {
+    const [opened, { open, close }] = useDisclosure(false);
+
+    function deleteClick(e) {
+        e.stopPropagation();
         const isDelete = confirm("Are you sure you want to delete your note?")
         if (isDelete) {
             noteToDelete(note.id);
@@ -16,13 +20,22 @@ function NoteCard({ note, noteToDelete }) {
     });
 
     return (
-        <div className="card">
-            <button className="delete-btn" onClick={deleteClick}>X</button>
-            {note.title ? <h2>{note.title}</h2> : null}
-            <h3>{note.text}</h3>
-            <p className="note-date">date: {formatDate}</p>
+        <>
+            <Modal opened={opened} onClose={close} centered withCloseButton={false}>
+                <div>
+                    {note.title ? <h2>{note.title}</h2> : null}
+                    <h3>{note.text}</h3>
+                    <p>date: {formatDate}</p>
+                </div>
+            </Modal>
+            <div className="card" onClick={open}>
+                <button className="delete-btn" onClick={deleteClick}>X</button>
+                {note.title ? <h2>{note.title}</h2> : null}
+                <h3>{note.text}</h3>
+                <p className="note-date">date: {formatDate}</p>
 
-        </div>
+            </div>
+        </>
     );
 }
 export default NoteCard;
