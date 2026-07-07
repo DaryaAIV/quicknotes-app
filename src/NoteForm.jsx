@@ -1,9 +1,9 @@
 import { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 
-function NoteForm({ onAddNote }) {
-    const [noteTitle, setNoteTitle] = useState("");
-    const [noteText, setNoteText] = useState("");
+function NoteForm({ onAddNote, note }) {
+    const [noteTitle, setNoteTitle] = useState(note ? note.title : "");
+    const [noteText, setNoteText] = useState(note ? note.text : "");
 
     function textChange(e) {
         setNoteText(e.target.value);
@@ -18,9 +18,10 @@ function NoteForm({ onAddNote }) {
             return;
         }
         onAddNote({ title: noteTitle, noteText: noteText });
-
-        setNoteTitle("");
-        setNoteText("");
+        if (!note) {
+            setNoteTitle("");
+            setNoteText("");
+        }
     }
 
     return (
@@ -28,7 +29,7 @@ function NoteForm({ onAddNote }) {
             <input type="text" placeholder="Title" value={noteTitle} onChange={titleChange} />
             <TextareaAutosize value={noteText} onChange={textChange} />
             <br />
-            <button onClick={submit}>Add</button>
+            <button onClick={submit}>{note ? "Update" : "Add"}</button>
         </div>
     );
 }

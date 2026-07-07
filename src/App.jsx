@@ -22,6 +22,21 @@ function App() {
     setNotes(currNotes);
   }
 
+  function updateNote(noteId, {title, text}){
+    const updateNotes = notes.map(note => {
+      if(note.id === noteId){
+        return{
+          ...note,
+          title: title,
+          text: text,
+          updateDate: new Date()
+        };
+      }
+      return note;
+    });
+    setNotes(updateNotes);
+  }
+
   return (
     <>
       <div className='App'>
@@ -29,7 +44,7 @@ function App() {
         <NoteForm onAddNote={addNote} />
         <div className="note-grid">
           {notes.map((oneNote) => (
-            <NoteCard key={oneNote.id} note={oneNote} noteToDelete={deleteNote} />
+            <NoteCard key={oneNote.id} note={oneNote} noteToDelete={deleteNote} noteToUpdate={updateNote} />
           ))}
         </div>
       </div>
