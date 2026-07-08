@@ -2,7 +2,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { Modal } from '@mantine/core';
 import NoteForm from "./NoteForm";
 
-function NoteCard({ note, noteToDelete, noteToUpdate }) {
+function NoteCard({ note, noteToDelete, noteToUpdate, categories = [] }) {
 
     const [opened, { open, close }] = useDisclosure(false);
 
@@ -29,21 +29,26 @@ function NoteCard({ note, noteToDelete, noteToUpdate }) {
         hour12: true
     }) : null;
 
+    const currentCategory = categories.find(cat => cat.id === note.category);
+    const cardColor = currentCategory ? currentCategory.color :"#d8e6f8";
+
     return (
         <>
             <Modal opened={opened} onClose={close} centered withCloseButton={false}>
                 <NoteForm
                     note={note}
+                    categories={categories}
                     onAddNote={(updatedData) => {
                         noteToUpdate(note.id, {
                             title: updatedData.title,
-                            text: updatedData.noteText
+                            text: updatedData.noteText,
+                            category: updatedData.category
                         });
                         close();
                     }}
                 />
             </Modal>
-            <div className="card" onClick={open}>
+            <div className="card" onClick={open} style={{ backgroundColor: cardColor }}>
                 <button className="delete-btn" onClick={deleteClick}>X</button>
                 {note.title ? <h2>{note.title}</h2> : null}
                 <h3>{note.text}</h3>
